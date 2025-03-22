@@ -29,7 +29,7 @@ public class MyController {
 
 	@GetMapping(value = "/get") // Using @RestController to see the Method: [http://localhost:8080/webapp/get]
 	public String getWord() {
-		//BasicConfigurator.configure();
+		// BasicConfigurator.configure();
 		PropertyConfigurator.configure("MyWebApp.Properties");
 		log.fatal("HelloWorld");
 		return "HelloWorld";
@@ -39,7 +39,7 @@ public class MyController {
 	// [http://localhost:8080/webapp/getWord1]
 	@GetMapping(value = "/getWord1")
 	public String getWord1() {
-		//BasicConfigurator.configure();
+		// BasicConfigurator.configure();
 		PropertyConfigurator.configure("MyWebApp.Properties");
 		log.error("WELCOME");
 		return "WELCOME";
@@ -89,6 +89,8 @@ public class MyController {
 	// [http://localhost:8080/webapp/getEvenOrOdd/22]
 	@GetMapping(value = "/getEvenOrOdd/{e}")
 	public String getOddOrEven(@PathVariable int e) {
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got Odd Or Even");
 		if (e % 2 != 0) {
 			return e + " : ODD NUMBER";
 		} else {
@@ -100,6 +102,8 @@ public class MyController {
 	// [http://localhost:8080/webapp/getAccess?username="Karthi"&password="Karthik"]
 	@GetMapping(value = "/getAccess")
 	public String getAccess(@RequestParam String username, @RequestParam String password) {
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got Access");
 		if (username.equals("Karthi") && password.equals("Karthik")) {
 			return "Access Allowed";
 		} else {
@@ -110,17 +114,20 @@ public class MyController {
 	// Using @GetMapping and @PathVariable find the vowels:
 	@GetMapping("/getVowels/{a}")
 	public String getVowels(@PathVariable String a) {
-		char[] c = a.toCharArray();
-		String vv= "";
-		for (int i = 0; i < c.length; i++) {
-			if (c[i] == 'a' || c[i] == 'e' || c[i] == 'i' || c[i] == 'o' || c[i] == 'u') {
-				return c[i] + " Vowels";
-			}
-			else {
-				vv= c[i] + " NotVowels";
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got Vowels");
+		StringBuilder vowels = new StringBuilder("Vowels: ");
+		StringBuilder notVowels = new StringBuilder("Not Vowels: ");
+
+		for (char ch : a.toCharArray()) {
+			if ("aeiouAEIOU".indexOf(ch) != -1) { // Check if it's a vowel
+				vowels.append(ch).append(" ");
+			} else {
+				notVowels.append(ch).append(" ");
 			}
 		}
-		return vv;
+
+		return vowels.toString() + "\n" + notVowels.toString();
 	}
 
 	// Using GetMapping() and @PathVariable() to reverse the String:
@@ -137,6 +144,8 @@ public class MyController {
 	// Using @GetMapping and @RequestBody get the Shirt Object Details:
 	@GetMapping(value = "/getShirt")
 	public Shirt getShirt(@RequestBody Shirt s) {
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got Shirt Object");
 		return s;
 	}
 
@@ -144,6 +153,8 @@ public class MyController {
 	// [http://localhost:8080/webapp/getShirtS]
 	@GetMapping(value = "/getShirts")
 	public String getShirts(@RequestBody Shirt s) {
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got Shirt Colour and Brand");
 		return s.getBrand() + "," + s.getColour();
 	}
 
@@ -151,6 +162,8 @@ public class MyController {
 	// Details: [http://localhost:8080/webapp/getShirt1]
 	@GetMapping(value = "/getShirt1")
 	public List<Shirt> getShirt1(@RequestBody List<Shirt> s) {
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got all Shirt Brand");
 		return s;
 	}
 
@@ -158,6 +171,8 @@ public class MyController {
 	// Details in Stream:[http://localhost:8080/webapp/getShirt11]
 	@GetMapping(value = "/getShirt11")
 	public List<String> getShirt11(@RequestBody List<Shirt> s) {
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got all Shirt Brand");
 		return s.stream().map(m -> m.getBrand()).collect(Collectors.toList());
 	}
 
@@ -165,6 +180,8 @@ public class MyController {
 	// Details in Stream: [http://localhost:8080/webapp/getShirt2]
 	@GetMapping(value = "/getShirt2")
 	public Shirt getShirt2(@RequestBody List<Shirt> s) {
+		PropertyConfigurator.configure("MyWebApp.Properties");
+		log.error("Hello got min price shirt details");
 		return s.stream().min(Comparator.comparing(Shirt::getPrice)).get();
 	}
 
